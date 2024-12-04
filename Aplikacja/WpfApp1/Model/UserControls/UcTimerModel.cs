@@ -56,5 +56,10 @@ namespace WpfApp1.Model.UserControls
             SecondOnes = 0; MinuteOnes = 0; SecondTens = 0; MinuteTens = 0;
         }
 
+        private bool _isStartVisible = true;
+        public bool IsSStartVisible
+        {
+            get { return _isStartVisible; } set { _isStartVisible = value; OnPropertyChanged(nameof(IsSStartVisible)); }
+        }
     }
 }

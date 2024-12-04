@@ -1,4 +1,4 @@
-﻿<Window x:Class="WpfApp1.MainWindow"
+﻿<mah:MetroWindow x:Class="WpfApp1.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,13 +7,16 @@
         xmlns:Uc="clr-namespace:WpfApp1.View.UserControls"
         xmlns:VM="clr-namespace:WpfApp1.ViewModel"
         
+                 
+                 
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d" 
         Title="Pomodoro" Height="850" Width="800">
     <Window.Resources>
-        
+
+
     </Window.Resources>
     <Window.DataContext>
         <VM:MainWindowViewModel/>
@@ -21,16 +24,77 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Uc:UcTimerView Grid.Column="1" Grid.Row="1" DataContext="{Binding ucTimerViewModel}"/>
+        <TabControl Grid.Column="1" Grid.Row="1" >
+            <TabItem Header="Focus">
+                <Uc:UcTimerView DataContext="{Binding UcTimerViewModelCollection[0]}"/>
+            </TabItem>
+
+            <TabItem Header="Short Break">
+                <Uc:UcTimerView DataContext="{Binding UcTimerViewModelCollection[1]}"/>
+            </TabItem>
+
+            <TabItem Header="Long Break">
+                <Uc:UcTimerView DataContext="{Binding UcTimerViewModelCollection[2]}"/>
+            </TabItem>
+        </TabControl>
+
+
+        <ListView Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ToDoListModelCollection, UpdateSourceTrigger=PropertyChanged}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <!--TODO
+                        Do zwiększenia ilości pomidorów użyć Mah.NumericUpDown
+                        --> 
+                        
+                        <StackPanel Orientation="Horizontal">
+
+                            <CheckBox/>
+
+
+
+
+                            <TextBlock Grid.Column="1" Text="{Binding TaskTitle}"/>
+
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+                            
+                        
+                        <TextBox Text= "{Binding TaskDescription}" 
+                                 BorderThickness="0"
+                                   MaxHeight="100"
+                                    Width="399"
+                                    VerticalScrollBarVisibility="Auto"
+                                   TextWrapping="Wrap"/>
+
+                        </StackPanel>
+
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
 
     </Grid>
-</Window>
+</mah:MetroWindow>
