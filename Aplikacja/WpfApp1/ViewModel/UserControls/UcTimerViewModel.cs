@@ -20,25 +20,63 @@ public class UcTimerViewModel
 
     private static readonly object _lockObject = new object();
     private static bool _isRunning = false;
+    private static bool _isPaused = false;
+
+    private readonly ManualResetEventSlim _pauseEvent = new ManualResetEventSlim(true);
+
 
     public UcTimerModel ucTimerModel { get; set; }
     public ICommand CountdownClick { get; set; }
     public ICommand CountdownCancelClick { get; set; }
+    public ICommand PauseClick { get; set; }
     public UcTimerViewModel() 
     {
         CountdownClick = new RelayCommand(x => CountdownClicked(""));
         CountdownCancelClick = new RelayCommand(x => CountdownCancelClicked(""));
+        PauseClick = new RelayCommand(x => PauseClicked(""));
         ucTimerModel = new UcTimerModel();
     }
 
     private void CountdownClicked(object parameter)
     {
-        TiemCountdown(0,1);
+        if(_isPaused == false)
+        {
+            
+            int minuteOnes = 5;
+            int minuteTens = 0;
+            int sec = (minuteTens * 600) + (minuteOnes * 60);
+            ucTimerModel.BeginOpacityZero = TimeSpan.FromSeconds(sec);
+            TiemCountdown(minuteTens, minuteOnes);
+
+            
+
+            
+
+        }
+        else if(_isPaused == true)
+        {
+            Resume();
+        }
+
     }
     
     private void CountdownCancelClicked(object parameter)
     {
-        Cancel();
+
+        if (_isPaused == false)
+        {
+            Cancel();
+        }
+        else if (_isPaused == true)
+        {
+            Resume();
+            Cancel();
+        }
+        
+    }    
+    private void PauseClicked(object parameter)
+    {
+        Pause();
     }
 
     public void Cancel()
@@ -47,6 +85,18 @@ public class UcTimerViewModel
         {
             _cancellationTokenSource.Cancel(); // Anulujemy token
         }
+    }
+
+    public void Pause()
+    {
+        _pauseEvent.Reset(); // Ustawia stan na "zatrzymany"
+        _isPaused = true;
+    }
+
+    public void Resume()
+    {
+        _pauseEvent.Set(); // Ustawia stan na "gotowy do działania"
+        _isPaused = false;
     }
 
     private async void TiemCountdown(int minuteTens, int minuteOnes)
@@ -90,8 +140,9 @@ public class UcTimerViewModel
                                     ucTimerModel.SetValuesToZero();
                                     return;
                                 }
-                                Thread.Sleep(10);
+                                Thread.Sleep(1000);
                                 ucTimerModel.SecondOnes--;
+                                _pauseEvent.Wait();
                             }
                             ucTimerModel.SecondOnes = 9;
                             ucTimerModel.SecondTens--;
@@ -103,43 +154,8 @@ public class UcTimerViewModel
                     ucTimerModel.MinuteTens--;
                 }
                 ucTimerModel.SetValuesToZero();
-                //SystemSounds.Beep.Play();
-                //SystemSounds.Question.Play();
                 Console.Beep(3000, 200);
-                //SystemSounds.Exclamation.Play();
-                //SystemSounds.Asterisk.Play();
-                //SystemSounds.Hand.Play();
 
-                //while (ucTimerModel.MinuteTens <= minuteTens)
-                //{
-                //    while (ucTimerModel.MinuteOnes < 10)
-                //    {
-                //        while (ucTimerModel.SecondTens < 6)
-                //        {
-                //            while (ucTimerModel.SecondOnes < 10)
-                //            {
-                //                if (token.IsCancellationRequested)
-                //                {
-                //                    ucTimerModel.SetValuesToZero();
-                //                    return;
-                //                }
-                //                Thread.Sleep(10);
-                //                ucTimerModel.SecondOnes++;
-                //                if (ucTimerModel.MinuteOnes == minuteOnes && ucTimerModel.MinuteTens == minuteTens)
-                //                {
-                //                    int i = 0;
-                //                }
-                //            }
-                //            ucTimerModel.SecondOnes = 0;
-                //            ucTimerModel.SecondTens++;
-                //        }
-                //        ucTimerModel.SecondTens = 0;
-                //        ucTimerModel.MinuteOnes++;
-                //    }
-                //    ucTimerModel.MinuteOnes = 0;
-                //    ucTimerModel.MinuteTens++;
-                //}
-                //ucTimerModel.MinuteTens = 0;
 
 
             }, token);

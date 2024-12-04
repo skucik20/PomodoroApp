@@ -32,7 +32,6 @@ class AlarmClock
                 PlayAlarmSound();
                 break;
             }
-
             // Sleep for 1 second to reduce CPU usage
             Thread.Sleep(1000);
         }
@@ -48,3 +47,7 @@ class AlarmClock
         }
     }
 }
+
+
+
+

@@ -1,10 +1,12 @@
-﻿using System;
+﻿using ControlzEx;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace WpfApp1.Model.UserControls
 {
@@ -39,7 +41,16 @@ namespace WpfApp1.Model.UserControls
             get { return _minuteTens; } set { _minuteTens = value; OnPropertyChanged(nameof(MinuteTens)); }
         }
 
-
+        private Duration _duration = new Duration(TimeSpan.FromSeconds(60));
+        public Duration Durationa
+        {
+            get { return _duration; } set { _duration = value; OnPropertyChanged(nameof(Durationa)); } 
+        }
+        private TimeSpan _beginOpacityZero = TimeSpan.FromSeconds(60);
+        public TimeSpan BeginOpacityZero
+        {
+            get { return _beginOpacityZero; } set { _beginOpacityZero = value; OnPropertyChanged(nameof(BeginOpacityZero)); Durationa = new Duration(BeginOpacityZero); } 
+        }
         public void SetValuesToZero()
         {
             SecondOnes = 0; MinuteOnes = 0; SecondTens = 0; MinuteTens = 0;
