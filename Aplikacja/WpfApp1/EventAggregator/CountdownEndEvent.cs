@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.EventAggregator
-{
-    class CountdownEndEvent
-    {
-    }
-}
+namespace WpfApp1.EventAggregator;
+
+class CountdownEndEvent : PubSubEvent<string> { }
+

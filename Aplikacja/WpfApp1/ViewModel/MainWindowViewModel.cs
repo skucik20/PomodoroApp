@@ -12,6 +12,7 @@ namespace WpfApp1.ViewModel;
 
 public class MainWindowViewModel
 {
+    private readonly IEventAggregator _eventAggregator;
     public ObservableCollection<UcTimerViewModel> UcTimerViewModelCollection { get; set; }
     public ObservableCollection<ToDoListModel> ToDoListModelCollection { get; set; }
     public MainWindowViewModel() 

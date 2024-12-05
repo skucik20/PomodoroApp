@@ -1,79 +1,122 @@
-﻿using Business;
+﻿using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Media;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
-using WpfApp1.EventAggregator;
+using System.Windows;
 using WpfApp1.Model.UserControls;
 using WpfApp1.ViewModel.Commands;
 
-namespace WpfApp1.ViewModel.UserControls;
+namespace WpfApp1.ViewModels.UserControls;
 
-public class UcTimerViewModel
+public class UcTimerViewModel : Screen
 {
 
-    private readonly IEventAggregator _eventAggregator;
+
+    private int _secondOnes = 0;
+    public int SecondOnes
+    {
+        get { return _secondOnes; }
+        set { _secondOnes = value; NotifyOfPropertyChange(nameof(SecondOnes)); }
+    }
+
+    private int _secondTens = 0;
+    public int SecondTens
+    {
+        get { return _secondTens; }
+        set { _secondTens = value; NotifyOfPropertyChange(nameof(SecondTens)); }
+    }
+    private int _minuteOnes = 0;
+    public int MinuteOnes
+    {
+        get { return _minuteOnes; }
+        set { _minuteOnes = value; NotifyOfPropertyChange(nameof(MinuteOnes)); }
+    }
+
+    private int _minuteTens = 0;
+    public int MinuteTens
+    {
+        get { return _minuteTens; }
+        set { _minuteTens = value; NotifyOfPropertyChange(nameof(MinuteTens)); }
+    }
+
+    private Duration _duration = new Duration(TimeSpan.FromSeconds(60));
+    public Duration Durationa
+    {
+        get { return _duration; }
+        set { _duration = value; NotifyOfPropertyChange(nameof(Durationa)); }
+    }
+    private TimeSpan _beginOpacityZero = TimeSpan.FromSeconds(60);
+    public TimeSpan BeginOpacityZero
+    {
+        get { return _beginOpacityZero; }
+        set { _beginOpacityZero = value; NotifyOfPropertyChange(nameof(BeginOpacityZero)); Durationa = new Duration(BeginOpacityZero); }
+    }
+    public void SetValuesToZero()
+    {
+        SecondOnes = 0; MinuteOnes = 0; SecondTens = 0; MinuteTens = 0;
+    }
+
+    private bool _isStartVisible = true;
+    public bool IsSStartVisible
+    {
+        get { return _isStartVisible; }
+        set { _isStartVisible = value; NotifyOfPropertyChange(nameof(IsSStartVisible)); }
+    }
 
     private CancellationTokenSource _cancellationTokenSource;
 
     private static readonly object _lockObject = new object();
     private static bool _isRunning = false;
     private static bool _isPaused = false;
-    public int _minuteOnes { get; set; }
-    public int _minuteTens { get; set; }
 
     private readonly ManualResetEventSlim _pauseEvent = new ManualResetEventSlim(true);
 
 
-    public UcTimerModel ucTimerModel { get; set; }
     public ICommand CountdownClick { get; set; }
     public ICommand CountdownCancelClick { get; set; }
     public ICommand PauseClick { get; set; }
-    public UcTimerViewModel() 
+    public UcTimerViewModel()
     {
+        _cancellationTokenSource = new CancellationTokenSource(); // Tworzymy token przerwania
         CountdownClick = new RelayCommand(x => CountdownClicked(""));
         CountdownCancelClick = new RelayCommand(x => CountdownCancelClicked(""));
         PauseClick = new RelayCommand(x => PauseClicked(""));
-        ucTimerModel = new UcTimerModel();
-        
-    }
-    public UcTimerViewModel(int minuteOnes, int minuteTens) 
-    {
-        CountdownClick = new RelayCommand(x => CountdownClicked(""));
-        CountdownCancelClick = new RelayCommand(x => CountdownCancelClicked(""));
-        PauseClick = new RelayCommand(x => PauseClicked(""));
-        ucTimerModel = new UcTimerModel();
-        _minuteOnes = minuteOnes;
-        _minuteTens = minuteTens;
 
-        ucTimerModel.MinuteOnes = minuteOnes;
-        ucTimerModel.MinuteTens = minuteTens;
-        // _eventAggregator = eventAggregator;
+        MinuteOnes = 5;
+
+
     }
+    //public UcTimerViewModel(int minuteOnes, int minuteTens)
+    //{
+    //    _cancellationTokenSource = new CancellationTokenSource(); // Tworzymy token przerwania
+    //    CountdownClick = new RelayCommand(x => CountdownClicked(""));
+    //    CountdownCancelClick = new RelayCommand(x => CountdownCancelClicked(""));
+    //    PauseClick = new RelayCommand(x => PauseClicked(""));
+    //    ucTimerModel = new UcTimerModel();
+    //    // _eventAggregator = eventAggregator;
+    //}
 
     private void CountdownClicked(object parameter)
     {
-        ucTimerModel.IsSStartVisible = false;
-        if(_isPaused == false)
+        IsSStartVisible = false;
+        if (_isPaused == false)
         {
             TiemCountdown(_minuteTens, _minuteOnes);
         }
-        else if(_isPaused == true)
+        else if (_isPaused == true)
         {
             Resume();
         }
 
     }
-    
+
     private void CountdownCancelClicked(object parameter)
     {
 
-        ucTimerModel.IsSStartVisible = true;
+        IsSStartVisible = true;
 
         if (_isPaused == false)
         {
@@ -85,10 +128,10 @@ public class UcTimerViewModel
             Cancel();
         }
 
-    }    
+    }
     private void PauseClicked(object parameter)
     {
-        ucTimerModel.IsSStartVisible = true;
+        IsSStartVisible = true;
         Pause();
     }
 
@@ -116,8 +159,8 @@ public class UcTimerViewModel
     private async void TiemCountdown(int minuteTens, int minuteOnes)
     {
 
-        ucTimerModel.SecondOnes = 0;
-        ucTimerModel.SecondTens = 0;
+        SecondOnes = 0;
+        SecondTens = 0;
 
         lock (_lockObject)
         {
@@ -138,20 +181,20 @@ public class UcTimerViewModel
             {
 
 
-                while (ucTimerModel.MinuteTens >= 0)
+                while (MinuteTens >= 0)
                 {
-                    while (ucTimerModel.MinuteOnes >= 0)
+                    while (MinuteOnes >= 0)
                     {
-                        while (ucTimerModel.SecondTens >= 0)
+                        while (SecondTens >= 0)
                         {
-                            while (ucTimerModel.SecondOnes >= 0)
+                            while (SecondOnes >= 0)
                             {
                                 //TODO Bardzo słaby mechanizme, powinienem do waita też dać cancelation tocken i guess
                                 if (token.IsCancellationRequested)
                                 {
-                                    ucTimerModel.SetValuesToZero();
-                                    ucTimerModel.MinuteTens = _minuteTens;
-                                    ucTimerModel.MinuteOnes = _minuteOnes;
+                                    SetValuesToZero();
+                                    MinuteTens = _minuteTens;
+                                    MinuteOnes = _minuteOnes;
                                     return;
                                 }
                                 _pauseEvent.Wait();
@@ -159,27 +202,27 @@ public class UcTimerViewModel
                                 _pauseEvent.Wait();
                                 if (token.IsCancellationRequested)
                                 {
-                                    ucTimerModel.SetValuesToZero();
-                                    ucTimerModel.MinuteTens = _minuteTens;
-                                    ucTimerModel.MinuteOnes = _minuteOnes;
+                                    SetValuesToZero();
+                                    MinuteTens = _minuteTens;
+                                    MinuteOnes = _minuteOnes;
                                     return;
                                 }
 
-                                ucTimerModel.SecondOnes--;
-                                
+                                SecondOnes--;
+
                             }
-                            ucTimerModel.SecondOnes = 9;
-                            ucTimerModel.SecondTens--;
+                            SecondOnes = 9;
+                            SecondTens--;
                         }
-                        ucTimerModel.SecondTens = 5;
-                        ucTimerModel.MinuteOnes--;
+                        SecondTens = 5;
+                        MinuteOnes--;
                     }
-                    ucTimerModel.MinuteOnes = 9;
-                    ucTimerModel.MinuteTens--;
+                    MinuteOnes = 9;
+                    MinuteTens--;
                 }
-                ucTimerModel.SetValuesToZero();
-                ucTimerModel.MinuteTens = _minuteTens;
-                ucTimerModel.MinuteOnes = _minuteOnes;
+                SetValuesToZero();
+                MinuteTens = _minuteTens;
+                MinuteOnes = _minuteOnes;
 
                 // _eventAggregator.GetEvent<CountdownEndEvent>().Publish("Countdown end!");
                 Console.Beep(3000, 200);
@@ -200,6 +243,4 @@ public class UcTimerViewModel
             }
         }
     }
-
-
 }

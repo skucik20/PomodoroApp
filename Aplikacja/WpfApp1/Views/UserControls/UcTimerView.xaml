@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="WpfApp1.Views.UserControls.UcTimerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp1.Views.UserControls"
+             xmlns:Cmd="clr-namespace:WpfApp1.ViewModel.Commands"
+             xmlns:VM="clr-namespace:WpfApp1.ViewModels.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+        <Cmd:BooleanNegationConverter x:Key="booleanNegationConverter"/>
+
+        <Style x:Key="clockLetters" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="90"/>
+        </Style>
+    </UserControl.Resources>
+
+    <UserControl.DataContext>
+        <VM:UcTimerViewModel/>
+    </UserControl.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+
+        </Grid.RowDefinitions>
+
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Style="{StaticResource clockLetters}" Text="{Binding MinuteTens, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Style="{StaticResource clockLetters}" Text="{Binding MinuteOnes, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Style="{StaticResource clockLetters}" Text=":"/>
+            <TextBlock Style="{StaticResource clockLetters}" Text="{Binding SecondTens, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Style="{StaticResource clockLetters}" Text="{Binding SecondOnes, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Button Grid.Column="2" Content="Pause" 
+                    Command="{Binding PauseClick}" 
+                    Visibility="{Binding IsSStartVisible, Converter={StaticResource booleanNegationConverter}}" 
+                    FontSize="25">
+            </Button>
+
+
+
+            <Button Grid.Column="2" Content="Start" 
+                    Command="{Binding CountdownClick}" 
+                    Visibility="{Binding IsSStartVisible, Converter={StaticResource booleanToVisibilityConverter}}"
+                    FontSize="25">
+            </Button>
+
+            <Button Grid.Row="1" Content="Cancel" 
+                    Command="{Binding CountdownCancelClick}" FontSize="25">
+ 
+            </Button>
+
+
+
+        </Grid>
+
+    </Grid>
+</UserControl>

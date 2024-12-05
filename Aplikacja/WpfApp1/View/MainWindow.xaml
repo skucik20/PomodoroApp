@@ -74,7 +74,7 @@
 
 
 
-                            <TextBlock Grid.Column="1" Text="{Binding TaskTitle}"/>
+                            <TextBlock Grid.Column="1" Text="{Binding TaskTitle}" Foreground="{DynamicResource MahApps.Brushes.Accent}"/>
 
                         </StackPanel>
 
