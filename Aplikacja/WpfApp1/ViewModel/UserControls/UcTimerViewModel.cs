@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using WpfApp1.EventAggregator;
 using WpfApp1.Model.UserControls;
 using WpfApp1.ViewModel.Commands;
 
@@ -16,8 +15,6 @@ namespace WpfApp1.ViewModel.UserControls;
 
 public class UcTimerViewModel
 {
-
-    private readonly IEventAggregator _eventAggregator;
 
     private CancellationTokenSource _cancellationTokenSource;
 
@@ -29,11 +26,11 @@ public class UcTimerViewModel
 
     private readonly ManualResetEventSlim _pauseEvent = new ManualResetEventSlim(true);
 
-
     public UcTimerModel ucTimerModel { get; set; }
     public ICommand CountdownClick { get; set; }
     public ICommand CountdownCancelClick { get; set; }
     public ICommand PauseClick { get; set; }
+
     public UcTimerViewModel() 
     {
         CountdownClick = new RelayCommand(x => CountdownClicked(""));

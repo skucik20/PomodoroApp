@@ -1,9 +1,11 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
-using MahApps.Metro.Controls;
-using Prism.Ioc;
-using Prism.Unity; // lub inny kontener DI, np. DryIoc
+using WpfApp1.Model;
 
 namespace WpfApp1;
 
@@ -12,5 +14,5 @@ namespace WpfApp1;
 /// </summary>
 public partial class App : Application
 {
-    
+    // RegisterTypes function is here
 }

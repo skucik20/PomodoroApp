@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.EventAggregator;
+namespace UsingEventsAggregator;
 
-class CountdownEndEvent : PubSubEvent<string> { }
-
+public class MessageSentEvent : PubSubEvent<string>
+{
+}

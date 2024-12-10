@@ -1,0 +1,13 @@
+D:\PomodoroApp\src\Aplikacja\UsingEventsAggregator\bin\Debug\net8.0-windows\UsingEventsAggregator.deps.json
+D:\PomodoroApp\src\Aplikacja\UsingEventsAggregator\bin\Debug\net8.0-windows\UsingEventsAggregator.dll
+D:\PomodoroApp\src\Aplikacja\UsingEventsAggregator\bin\Debug\net8.0-windows\UsingEventsAggregator.pdb
+D:\PomodoroApp\src\Aplikacja\UsingEventsAggregator\obj\Debug\net8.0-windows\UsingEventsAggregator.csproj.AssemblyReference.cache
+D:\PomodoroApp\src\Aplikacja\UsingEventsAggregator\obj\Debug\net8.0-windows\UsingEventsAggregator.GeneratedMSBuildEditorConfig.editorconfig
+D:\PomodoroApp\src\Aplikacja\UsingEventsAggregator\obj\Debug\net8.0-windows\UsingEventsAggregator.AssemblyInfoInputs.cache
+D:\PomodoroApp\src\Aplikacja\UsingEventsAggregator\obj\Debug\net8.0-windows\UsingEventsAggregator.AssemblyInfo.cs
+D:\PomodoroApp\src\Aplikacja\UsingEventsAggregator\obj\Debug\net8.0-windows\UsingEventsAggregator.csproj.CoreCompileInputs.cache
+D:\PomodoroApp\src\Aplikacja\UsingEventsAggregator\obj\Debug\net8.0-windows\UsingEventsAggregator.sourcelink.json
+D:\PomodoroApp\src\Aplikacja\UsingEventsAggregator\obj\Debug\net8.0-windows\UsingEventsAggregator.dll
+D:\PomodoroApp\src\Aplikacja\UsingEventsAggregator\obj\Debug\net8.0-windows\refint\UsingEventsAggregator.dll
+D:\PomodoroApp\src\Aplikacja\UsingEventsAggregator\obj\Debug\net8.0-windows\UsingEventsAggregator.pdb
+D:\PomodoroApp\src\Aplikacja\UsingEventsAggregator\obj\Debug\net8.0-windows\ref\UsingEventsAggregator.dll
